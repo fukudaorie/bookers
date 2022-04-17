@@ -14,23 +14,40 @@
       <td><%= book.body %></td>
       <td>
         <span>
-          <%= link_to book.title, book_path(book.id) %>
+          <%= link_to "Show", book_path(book.id) %>
         </span>
       </td>
-      <td></td>
-      <td></td>
+      <td>
+        <span>
+          <%= link_to "edit", edit_book_path(book.id) %>
+        </span>
+      </td>
+      <td>
+        <%= link_to "Destroy", book_path(book.id), method: :delete, "data-confirm" => "Are you sure？" %>
+      </td>
     </tr>
     <% end %>
   </tbody>
 </table>
-<%= form_with model: @book , url: books_path, method: :post do |f| %>
+<h2><strong>New book</strong></h2>
 
-  <h4>タイトル</h4>
+<%= form_with model: @book , url: books_path, method: :post do |f| %>
+  
+<% if @book.errors.any? %>
+  <%= @book.errors.count %> errors prohibited this book from being saved:
+  <ul>
+    <% @book.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+  </ul>
+<% end %>
+  
+  <h4>Title</h4>
   <%= f.text_field :title %>
   
-  <h4>本文</h4>
+  <h4>Body</h4>
   <%= f.text_area :body %>
   
  
-  <%= f.submit '投稿' %>
+  <%= f.submit 'Create Book' %>
 <% end %>  
